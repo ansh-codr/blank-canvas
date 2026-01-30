@@ -1,11 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, Suspense } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import Spline from '@splinetool/react-spline';
 import { Button } from './button';
 import { Input } from './input';
-import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts';
 import {
   AtSignIcon,
@@ -69,14 +68,30 @@ export function AuthPage({ mode = 'login' }: AuthPageProps) {
 
   return (
     <main className="relative md:h-screen md:overflow-hidden lg:grid lg:grid-cols-2 bg-[#000926]">
-      {/* Left Side - Branding */}
-      <div className="relative hidden h-full flex-col border-r border-[#0f52ba]/30 p-10 lg:flex" style={{ background: 'linear-gradient(135deg, #000926 0%, #0f52ba 100%)' }}>
-        <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#000926] to-transparent" />
-        <div className="z-10 flex items-center gap-2">
+      {/* Left Side - Spline 3D Scene */}
+      <div className="relative hidden h-full flex-col border-r border-[#0f52ba]/30 lg:flex overflow-hidden" style={{ background: '#000926' }}>
+        {/* Spline 3D Background */}
+        <div className="absolute inset-0 z-0">
+          <Suspense fallback={<SplineLoader />}>
+            <Spline 
+              scene="https://prod.spline.design/0L4x20u3qInBR0a1/scene.splinecode"
+              className="w-full h-full"
+            />
+          </Suspense>
+        </div>
+        
+        {/* Overlay gradient for text readability */}
+        <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#000926] via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-transparent to-[#000926]/50 pointer-events-none" />
+        
+        {/* Logo */}
+        <div className="z-20 flex items-center gap-2 p-10">
           <GamepadIcon className="size-8 text-[#D6E6F3]" />
           <p className="text-2xl font-bold text-[#D6E6F3]">GameHub</p>
         </div>
-        <div className="z-10 mt-auto">
+        
+        {/* Quote at bottom */}
+        <div className="z-20 mt-auto p-10">
           <blockquote className="space-y-2">
             <p className="text-xl text-[#D6E6F3]">
               &ldquo;Join thousands of gamers competing for glory on the ultimate gaming platform.&rdquo;
@@ -85,10 +100,6 @@ export function AuthPage({ mode = 'login' }: AuthPageProps) {
               ~ The Gaming Community
             </footer>
           </blockquote>
-        </div>
-        <div className="absolute inset-0 overflow-hidden">
-          <FloatingPaths position={1} />
-          <FloatingPaths position={-1} />
         </div>
       </div>
 
@@ -254,48 +265,16 @@ export function AuthPage({ mode = 'login' }: AuthPageProps) {
   );
 }
 
-function FloatingPaths({ position }: { position: number }) {
-  const paths = Array.from({ length: 36 }, (_, i) => ({
-    id: i,
-    d: `M-${380 - i * 5 * position} -${189 + i * 6}C-${
-      380 - i * 5 * position
-    } -${189 + i * 6} -${312 - i * 5 * position} ${216 - i * 6} ${
-      152 - i * 5 * position
-    } ${343 - i * 6}C${616 - i * 5 * position} ${470 - i * 6} ${
-      684 - i * 5 * position
-    } ${875 - i * 6} ${684 - i * 5 * position} ${875 - i * 6}`,
-    width: 0.5 + i * 0.03,
-  }));
-
+function SplineLoader() {
   return (
-    <div className="pointer-events-none absolute inset-0">
-      <svg
-        className="h-full w-full"
-        viewBox="0 0 696 316"
-        fill="none"
-      >
-        <title>Background Paths</title>
-        {paths.map((path) => (
-          <motion.path
-            key={path.id}
-            d={path.d}
-            stroke="#0f52ba"
-            strokeWidth={path.width}
-            strokeOpacity={0.1 + path.id * 0.02}
-            initial={{ pathLength: 0.3, opacity: 0.6 }}
-            animate={{
-              pathLength: 1,
-              opacity: [0.3, 0.6, 0.3],
-              pathOffset: [0, 1, 0],
-            }}
-            transition={{
-              duration: 20 + Math.random() * 10,
-              repeat: Number.POSITIVE_INFINITY,
-              ease: 'linear',
-            }}
-          />
-        ))}
-      </svg>
+    <div className="w-full h-full flex items-center justify-center bg-[#000926]">
+      <div className="flex flex-col items-center gap-4">
+        <div className="relative">
+          <div className="w-16 h-16 rounded-full border-4 border-[#0f52ba]/20 border-t-[#0f52ba] animate-spin" />
+          <div className="absolute inset-0 w-16 h-16 rounded-full border-4 border-transparent border-b-[#A6c5d7]/30 animate-spin" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }} />
+        </div>
+        <p className="text-[#A6c5d7] text-sm animate-pulse">Loading 3D Scene...</p>
+      </div>
     </div>
   );
 }

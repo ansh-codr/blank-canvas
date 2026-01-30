@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { Login, Register, Profile, Dashboard, Leaderboard, Admin } from "@/pages";
+import { SnakeGame } from "@/games";
 import App from "@/app";
 
 export const AppRouter = () => {
@@ -21,6 +22,14 @@ export const AppRouter = () => {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/games/snake"
+            element={
+              <ProtectedRoute>
+                <SnakeGame />
               </ProtectedRoute>
             }
           />
