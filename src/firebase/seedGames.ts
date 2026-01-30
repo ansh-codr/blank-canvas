@@ -22,22 +22,51 @@ const DEFAULT_GAMES: Omit<Game, "id" | "createdAt" | "playCount">[] = [
     maxScore: 0,
     isActive: true,
   },
+  {
+    name: "Memory Match",
+    description: "Test your memory with this card matching game! Flip cards, find pairs, and challenge yourself with 3 difficulty levels.",
+    category: "puzzle",
+    gameUrl: "/games/memory",
+    thumbnailUrl: "",
+    maxScore: 0,
+    isActive: true,
+  },
+  {
+    name: "Rock Paper Scissors",
+    description: "The ultimate battle of wits! Challenge the AI in Best of 3, Best of 5, or Endless mode. Build your winning streak!",
+    category: "arcade",
+    gameUrl: "/games/rps",
+    thumbnailUrl: "",
+    maxScore: 0,
+    isActive: true,
+  },
 ];
 
 // Game ID mapping for scores
 export const GAME_ID_MAP: Record<string, string> = {
-  "neon-snake": "", // Will be populated after seeding
+  "neon-snake": "",
   "tic-tac-toe": "",
+  "memory-match": "",
+  "rock-paper-scissors": "",
 };
 
 export const seedDefaultGames = async (): Promise<void> => {
   try {
     const gamesRef = collection(db, "games");
     
+    const slugMap: Record<string, string> = {
+      "Neon Snake": "neon-snake",
+      "Tic Tac Toe": "tic-tac-toe",
+      "Memory Match": "memory-match",
+      "Rock Paper Scissors": "rock-paper-scissors",
+    };
+    
     for (const game of DEFAULT_GAMES) {
       // Check if game already exists by name
       const q = query(gamesRef, where("name", "==", game.name));
       const snapshot = await getDocs(q);
+      
+      const slug = slugMap[game.name];
       
       if (snapshot.empty) {
         // Game doesn't exist, create it
@@ -49,18 +78,14 @@ export const seedDefaultGames = async (): Promise<void> => {
         console.log(`✅ Seeded game: ${game.name} with ID: ${docRef.id}`);
         
         // Update ID map
-        if (game.name === "Neon Snake") {
-          GAME_ID_MAP["neon-snake"] = docRef.id;
-        } else if (game.name === "Tic Tac Toe") {
-          GAME_ID_MAP["tic-tac-toe"] = docRef.id;
+        if (slug) {
+          GAME_ID_MAP[slug] = docRef.id;
         }
       } else {
         // Game exists, get its ID
         const existingGame = snapshot.docs[0];
-        if (game.name === "Neon Snake") {
-          GAME_ID_MAP["neon-snake"] = existingGame.id;
-        } else if (game.name === "Tic Tac Toe") {
-          GAME_ID_MAP["tic-tac-toe"] = existingGame.id;
+        if (slug) {
+          GAME_ID_MAP[slug] = existingGame.id;
         }
         console.log(`ℹ️ Game already exists: ${game.name} with ID: ${existingGame.id}`);
       }
@@ -81,6 +106,8 @@ export const getGameIdBySlug = async (slug: string): Promise<string | null> => {
   const nameMap: Record<string, string> = {
     "neon-snake": "Neon Snake",
     "tic-tac-toe": "Tic Tac Toe",
+    "memory-match": "Memory Match",
+    "rock-paper-scissors": "Rock Paper Scissors",
   };
   
   const gameName = nameMap[slug];

@@ -6,16 +6,30 @@ import { FaGamepad, FaChartLine, FaTrophy, FaUser, FaCog, FaPlay, FaArrowLeft, F
 import { SplineBackground } from "@/components/SplineBackground";
 
 // Game icons and colors mapping
-const GAME_STYLES: Record<string, { icon: string; gradient: string; badge: { text: string; color: string } }> = {
+const GAME_STYLES: Record<string, { icon: string; gradient: string; badge: { text: string; color: string }; buttonColor: string }> = {
   "Neon Snake": { 
     icon: "🐍", 
     gradient: "linear-gradient(135deg, rgba(15, 82, 186, 0.4) 0%, rgba(0, 9, 38, 0.8) 100%)",
-    badge: { text: "CLASSIC", color: "green" }
+    badge: { text: "CLASSIC", color: "green" },
+    buttonColor: "#0f52ba"
   },
   "Tic Tac Toe": { 
     icon: "⭕", 
     gradient: "linear-gradient(135deg, rgba(139, 92, 246, 0.4) 0%, rgba(0, 9, 38, 0.8) 100%)",
-    badge: { text: "AI", color: "purple" }
+    badge: { text: "AI", color: "purple" },
+    buttonColor: "#8b5cf6"
+  },
+  "Memory Match": { 
+    icon: "🧠", 
+    gradient: "linear-gradient(135deg, rgba(236, 72, 153, 0.4) 0%, rgba(0, 9, 38, 0.8) 100%)",
+    badge: { text: "BRAIN", color: "pink" },
+    buttonColor: "#ec4899"
+  },
+  "Rock Paper Scissors": { 
+    icon: "✊", 
+    gradient: "linear-gradient(135deg, rgba(239, 68, 68, 0.4) 0%, rgba(0, 9, 38, 0.8) 100%)",
+    badge: { text: "BATTLE", color: "red" },
+    buttonColor: "#ef4444"
   },
 };
 
@@ -23,7 +37,8 @@ const getGameStyle = (gameName: string) => {
   return GAME_STYLES[gameName] || { 
     icon: "🎮", 
     gradient: "linear-gradient(135deg, rgba(15, 82, 186, 0.4) 0%, rgba(0, 9, 38, 0.8) 100%)",
-    badge: { text: "NEW", color: "blue" }
+    badge: { text: "NEW", color: "blue" },
+    buttonColor: "#0f52ba"
   };
 };
 
@@ -33,6 +48,8 @@ const getBadgeColors = (color: string) => {
     purple: "bg-purple-500/20 text-purple-400 border-purple-500/30",
     blue: "bg-blue-500/20 text-blue-400 border-blue-500/30",
     yellow: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+    pink: "bg-pink-500/20 text-pink-400 border-pink-500/30",
+    red: "bg-red-500/20 text-red-400 border-red-500/30",
   };
   return colors[color] || colors.blue;
 };
@@ -210,7 +227,7 @@ export const Dashboard = () => {
                       </p>
                       <div className="flex flex-wrap items-center gap-3">
                         <span className="flex items-center gap-2 px-5 py-2 rounded-xl font-semibold transition-all duration-300 group-hover:scale-105"
-                          style={{ backgroundColor: style.badge.color === 'purple' ? '#8b5cf6' : '#0f52ba', color: '#D6E6F3' }}>
+                          style={{ backgroundColor: style.buttonColor, color: '#D6E6F3' }}>
                           <FaPlay />
                           Play
                         </span>
