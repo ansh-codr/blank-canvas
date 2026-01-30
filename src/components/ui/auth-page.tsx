@@ -74,7 +74,7 @@ export function AuthPage({ mode = 'login' }: AuthPageProps) {
         <div className="absolute inset-0 z-0">
           <Suspense fallback={<SplineLoader />}>
             <Spline 
-              scene="https://prod.spline.design/0L4x20u3qInBR0a1/scene.splinecode"
+              scene="https://prod.spline.design/lbopITbg7UAV8ESd/scene.splinecode"
               className="w-full h-full"
             />
           </Suspense>
