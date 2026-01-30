@@ -6,6 +6,11 @@ export const NAV_ITEMS = [
   { label: "Contact", href: "#contact" },
 ] as const;
 
+// Admin emails - these users will automatically be set as admins
+export const ADMIN_EMAILS = [
+  "dodgehellcatansh@gmail.com",
+] as const;
+
 export const VIDEO_LINKS = {
   feature1: "/videos/feature-1.mp4",
   feature2: "/videos/feature-2.mp4",
