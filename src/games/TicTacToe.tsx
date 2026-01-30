@@ -1,8 +1,8 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft, FaRedo, FaTrophy, FaUser, FaRobot } from 'react-icons/fa';
 import { useAuth } from '@/contexts';
-import { addScore } from '@/firebase';
+import { addScore, incrementPlayCount, getGameIdBySlug } from '@/firebase';
 import { SplineBackground } from '@/components/SplineBackground';
 
 type Player = 'X' | 'O' | null;
@@ -180,6 +180,21 @@ export const TicTacToe = () => {
     setWinner(null);
     setWinningLine(null);
   }, []);
+
+  // Track play count on first game start
+  useEffect(() => {
+    const trackPlayCount = async () => {
+      try {
+        const gameId = await getGameIdBySlug('tic-tac-toe');
+        if (gameId) {
+          await incrementPlayCount(gameId);
+        }
+      } catch (error) {
+        console.error('Error incrementing play count:', error);
+      }
+    };
+    trackPlayCount();
+  }, []); // Run once on mount
 
   // Get cell style
   const getCellStyle = (index: number) => {

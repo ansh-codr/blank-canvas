@@ -28,4 +28,5 @@ export {
   getAllUsers,
   setUserAdmin,
 } from "./firestore";
+export { seedDefaultGames, getGameIdBySlug, GAME_ID_MAP } from "./seedGames";
 export type { UserProfile, Game, Score } from "./firestore";

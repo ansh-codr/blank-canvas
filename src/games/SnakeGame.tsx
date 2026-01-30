@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft, FaPlay, FaPause, FaRedo, FaTrophy, FaArrowUp, FaArrowDown, FaArrowRight } from 'react-icons/fa';
 import { FaArrowLeftLong } from 'react-icons/fa6';
 import { useAuth } from '@/contexts';
-import { addScore } from '@/firebase';
+import { addScore, incrementPlayCount, getGameIdBySlug } from '@/firebase';
 import { SplineBackground } from '@/components/SplineBackground';
 
 const GRID_SIZE = 20;
@@ -54,11 +54,25 @@ export const SnakeGame = () => {
     setGameRunning(false);
   }, [generateFood]);
 
+  // Start game and track play count
+  const startGame = useCallback(async () => {
+    setGameRunning(true);
+    // Increment play count in Firebase
+    try {
+      const gameId = await getGameIdBySlug('neon-snake');
+      if (gameId) {
+        await incrementPlayCount(gameId);
+      }
+    } catch (error) {
+      console.error('Error incrementing play count:', error);
+    }
+  }, []);
+
   // Handle keyboard input
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (!gameRunning && !gameOver && e.key === ' ') {
-        setGameRunning(true);
+        startGame();
         return;
       }
 
@@ -442,7 +456,7 @@ export const SnakeGame = () => {
                       Don't hit the walls or yourself!
                     </p>
                     <button
-                      onClick={() => setGameRunning(true)}
+                      onClick={startGame}
                       className="flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105"
                       style={{ backgroundColor: '#0f52ba', color: '#D6E6F3' }}
                     >

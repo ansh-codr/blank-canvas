@@ -14,6 +14,7 @@ import {
   signInWithEmail,
   signInWithGoogle,
   logOut,
+  seedDefaultGames,
 } from "@/firebase";
 
 interface AuthContextType {
@@ -54,6 +55,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setLoading(false);
         return;
       }
+
+      // Seed default games on app start
+      seedDefaultGames().catch(console.error);
 
       const unsubscribe = onAuthStateChanged(auth, async (user) => {
         setUser(user);
