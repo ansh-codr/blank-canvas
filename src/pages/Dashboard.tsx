@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts";
 import { getActiveGames, Game } from "@/firebase";
 import { FaGamepad, FaChartLine, FaTrophy, FaUser, FaCog, FaPlay, FaArrowLeft, FaStar } from "react-icons/fa";
+import { SplineBackground } from "@/components/SplineBackground";
 
 export const Dashboard = () => {
   const { userProfile, isAdmin } = useAuth();
@@ -20,12 +21,9 @@ export const Dashboard = () => {
   }, []);
 
   return (
-    <div className="min-h-screen py-8 px-4 relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #000926 0%, #0f52ba 100%)' }}>
-      {/* Animated background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full opacity-10 blur-3xl" style={{ backgroundColor: '#A6c5d7' }}></div>
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] rounded-full opacity-10 blur-3xl" style={{ backgroundColor: '#0f52ba' }}></div>
-      </div>
+    <div className="min-h-screen py-8 px-4 relative overflow-hidden bg-transparent">
+      {/* Spline 3D Background */}
+      <SplineBackground />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Back Button */}

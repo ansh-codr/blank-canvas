@@ -21,6 +21,7 @@ import {
   FaChartBar,
   FaArrowLeft,
 } from "react-icons/fa";
+import { SplineBackground } from "@/components/SplineBackground";
 
 type Tab = "users" | "games" | "stats";
 
@@ -125,25 +126,9 @@ export const Admin = () => {
   }
 
   return (
-    <div 
-      className="min-h-screen py-12 px-4 relative overflow-hidden"
-      style={{ background: 'linear-gradient(135deg, #000926 0%, #0f52ba 100%)' }}
-    >
-      {/* Animated Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div 
-          className="absolute w-96 h-96 rounded-full blur-3xl animate-pulse"
-          style={{ backgroundColor: 'rgba(15, 82, 186, 0.3)', top: '5%', left: '10%' }}
-        />
-        <div 
-          className="absolute w-80 h-80 rounded-full blur-3xl animate-pulse"
-          style={{ backgroundColor: 'rgba(166, 197, 215, 0.2)', bottom: '10%', right: '5%', animationDelay: '1s' }}
-        />
-        <div 
-          className="absolute w-64 h-64 rounded-full blur-3xl animate-pulse"
-          style={{ backgroundColor: 'rgba(214, 230, 243, 0.1)', top: '50%', left: '60%', animationDelay: '2s' }}
-        />
-      </div>
+    <div className="min-h-screen py-12 px-4 relative overflow-hidden bg-transparent">
+      {/* Spline 3D Background */}
+      <SplineBackground />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}

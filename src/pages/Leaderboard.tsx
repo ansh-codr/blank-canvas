@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getActiveGames, getLeaderboard, Game, Score } from "@/firebase";
 import { FaTrophy, FaMedal, FaGamepad, FaCrown, FaArrowLeft } from "react-icons/fa";
+import { SplineBackground } from "@/components/SplineBackground";
 
 export const Leaderboard = () => {
   const navigate = useNavigate();
@@ -64,25 +65,9 @@ export const Leaderboard = () => {
   };
 
   return (
-    <div 
-      className="min-h-screen py-12 px-4 relative overflow-hidden"
-      style={{ background: 'linear-gradient(135deg, #000926 0%, #0f52ba 100%)' }}
-    >
-      {/* Animated Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div 
-          className="absolute w-96 h-96 rounded-full blur-3xl animate-pulse"
-          style={{ backgroundColor: 'rgba(234, 179, 8, 0.15)', top: '10%', left: '15%' }}
-        />
-        <div 
-          className="absolute w-80 h-80 rounded-full blur-3xl animate-pulse"
-          style={{ backgroundColor: 'rgba(15, 82, 186, 0.3)', bottom: '15%', right: '10%', animationDelay: '1s' }}
-        />
-        <div 
-          className="absolute w-64 h-64 rounded-full blur-3xl animate-pulse"
-          style={{ backgroundColor: 'rgba(166, 197, 215, 0.2)', top: '60%', left: '50%', animationDelay: '2s' }}
-        />
-      </div>
+    <div className="min-h-screen py-12 px-4 relative overflow-hidden bg-transparent">
+      {/* Spline 3D Background */}
+      <SplineBackground />
 
       <div className="max-w-4xl mx-auto relative z-10">
         {/* Back Button */}

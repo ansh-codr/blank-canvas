@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft, FaPlay, FaPause, FaRedo, FaTrophy } from 'react-icons/fa';
 import { useAuth } from '@/contexts';
 import { addScore } from '@/firebase';
+import { SplineBackground } from '@/components/SplineBackground';
 
 const GRID_SIZE = 20;
 const CELL_SIZE = 20;
@@ -290,21 +291,9 @@ export const SnakeGame = () => {
   }, [gameOver, score, user, userProfile]);
 
   return (
-    <div 
-      className="min-h-screen py-8 px-4 relative overflow-hidden"
-      style={{ background: 'linear-gradient(135deg, #000926 0%, #0f52ba 100%)' }}
-    >
-      {/* Animated Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div 
-          className="absolute w-96 h-96 rounded-full blur-3xl animate-pulse"
-          style={{ backgroundColor: 'rgba(15, 82, 186, 0.3)', top: '10%', left: '5%' }}
-        />
-        <div 
-          className="absolute w-80 h-80 rounded-full blur-3xl animate-pulse"
-          style={{ backgroundColor: 'rgba(166, 197, 215, 0.2)', bottom: '10%', right: '5%', animationDelay: '1s' }}
-        />
-      </div>
+    <div className="min-h-screen py-8 px-4 relative overflow-hidden bg-transparent">
+      {/* Spline 3D Background */}
+      <SplineBackground />
 
       <div className="max-w-2xl mx-auto relative z-10">
         {/* Header */}
