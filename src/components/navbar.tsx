@@ -7,6 +7,7 @@ import { NAV_ITEMS } from "@/constants";
 import { cn } from "@/lib/utils";
 
 import { Button } from "./button";
+import { NavAuthButton } from "./NavAuthButton";
 
 export const Navbar = () => {
   const navContainerRef = useRef<HTMLDivElement>(null);
@@ -110,6 +111,8 @@ export const Navbar = () => {
                     );
                   })}
               </button>
+
+              <NavAuthButton />
             </div>
           </div>
         </nav>
