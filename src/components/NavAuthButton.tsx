@@ -3,10 +3,27 @@ import { useAuth } from "@/contexts";
 import { FaUser, FaGamepad, FaTrophy, FaCog } from "react-icons/fa";
 
 export const NavAuthButton = () => {
-  const { user, loading, isAdmin } = useAuth();
+  let user = null;
+  let loading = false;
+  let isAdmin = false;
 
+  try {
+    const auth = useAuth();
+    user = auth.user;
+    loading = auth.loading;
+    isAdmin = auth.isAdmin;
+  } catch (error) {
+    // Auth context not available, show default buttons
+    console.warn("Auth context not available:", error);
+  }
+
+  // Show loading spinner briefly
   if (loading) {
-    return null;
+    return (
+      <div className="flex items-center gap-2">
+        <div className="h-8 w-8 animate-pulse rounded-full bg-white/20"></div>
+      </div>
+    );
   }
 
   if (user) {
@@ -42,6 +59,7 @@ export const NavAuthButton = () => {
     );
   }
 
+  // Not logged in - show leaderboard and sign in buttons
   return (
     <div className="flex items-center gap-2">
       <Link
