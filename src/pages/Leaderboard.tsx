@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { getActiveGames, getLeaderboard, Game, Score } from "@/firebase";
-import { FaTrophy, FaMedal, FaGamepad, FaCrown } from "react-icons/fa";
+import { FaTrophy, FaMedal, FaGamepad, FaCrown, FaArrowLeft } from "react-icons/fa";
 
 export const Leaderboard = () => {
+  const navigate = useNavigate();
   const [games, setGames] = useState<Game[]>([]);
   const [selectedGame, setSelectedGame] = useState<string>("");
   const [leaderboard, setLeaderboard] = useState<Score[]>([]);
@@ -44,43 +46,80 @@ export const Leaderboard = () => {
       case 2:
         return <FaMedal className="text-amber-600 text-xl" />;
       default:
-        return <span className="text-violet-300 font-bold w-6 text-center">{index + 1}</span>;
+        return <span className="font-bold w-6 text-center" style={{ color: '#A6c5d7' }}>{index + 1}</span>;
     }
   };
 
   const getRankBg = (index: number) => {
     switch (index) {
       case 0:
-        return "bg-gradient-to-r from-yellow-500/20 to-amber-500/20 border-yellow-500/30";
+        return { background: 'linear-gradient(90deg, rgba(234, 179, 8, 0.2), rgba(217, 119, 6, 0.2))', border: '1px solid rgba(234, 179, 8, 0.3)' };
       case 1:
-        return "bg-gradient-to-r from-gray-400/20 to-gray-500/20 border-gray-400/30";
+        return { background: 'linear-gradient(90deg, rgba(156, 163, 175, 0.2), rgba(107, 114, 128, 0.2))', border: '1px solid rgba(156, 163, 175, 0.3)' };
       case 2:
-        return "bg-gradient-to-r from-amber-600/20 to-orange-600/20 border-amber-600/30";
+        return { background: 'linear-gradient(90deg, rgba(217, 119, 6, 0.2), rgba(234, 88, 12, 0.2))', border: '1px solid rgba(217, 119, 6, 0.3)' };
       default:
-        return "bg-white/5 border-white/10";
+        return { backgroundColor: 'rgba(0, 9, 38, 0.5)', border: '1px solid rgba(166, 197, 215, 0.1)' };
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-900 via-purple-900 to-indigo-900 py-12 px-4">
-      <div className="max-w-4xl mx-auto">
+    <div 
+      className="min-h-screen py-12 px-4 relative overflow-hidden"
+      style={{ background: 'linear-gradient(135deg, #000926 0%, #0f52ba 100%)' }}
+    >
+      {/* Animated Background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div 
+          className="absolute w-96 h-96 rounded-full blur-3xl animate-pulse"
+          style={{ backgroundColor: 'rgba(234, 179, 8, 0.15)', top: '10%', left: '15%' }}
+        />
+        <div 
+          className="absolute w-80 h-80 rounded-full blur-3xl animate-pulse"
+          style={{ backgroundColor: 'rgba(15, 82, 186, 0.3)', bottom: '15%', right: '10%', animationDelay: '1s' }}
+        />
+        <div 
+          className="absolute w-64 h-64 rounded-full blur-3xl animate-pulse"
+          style={{ backgroundColor: 'rgba(166, 197, 215, 0.2)', top: '60%', left: '50%', animationDelay: '2s' }}
+        />
+      </div>
+
+      <div className="max-w-4xl mx-auto relative z-10">
+        {/* Back Button */}
+        <button
+          onClick={() => navigate("/")}
+          className="flex items-center gap-2 mb-6 px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105"
+          style={{ backgroundColor: 'rgba(166, 197, 215, 0.2)', color: '#D6E6F3' }}
+        >
+          <FaArrowLeft />
+          Back to Home
+        </button>
+
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center p-4 bg-yellow-500/20 rounded-full mb-4">
+          <div 
+            className="inline-flex items-center justify-center p-4 rounded-full mb-4"
+            style={{ backgroundColor: 'rgba(234, 179, 8, 0.2)' }}
+          >
             <FaTrophy className="text-4xl text-yellow-400" />
           </div>
-          <h1 className="text-4xl font-bold text-white mb-2">Leaderboards</h1>
-          <p className="text-violet-300">See who's dominating the games</p>
+          <h1 className="text-4xl font-bold mb-2" style={{ color: '#D6E6F3' }}>Leaderboards</h1>
+          <p style={{ color: '#A6c5d7' }}>See who's dominating the games</p>
         </div>
 
         {/* Game Selector */}
         {loading ? (
-          <div className="text-center text-violet-300 py-12">Loading games...</div>
+          <div className="flex justify-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-t-transparent" style={{ borderColor: '#A6c5d7', borderTopColor: 'transparent' }}></div>
+          </div>
         ) : games.length === 0 ? (
-          <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-12 border border-white/20 text-center">
-            <FaGamepad className="text-6xl text-violet-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">No Games Available</h3>
-            <p className="text-violet-300">Leaderboards will appear once games are added.</p>
+          <div 
+            className="backdrop-blur-xl rounded-2xl p-12 text-center"
+            style={{ backgroundColor: 'rgba(0, 9, 38, 0.8)', border: '1px solid rgba(166, 197, 215, 0.2)' }}
+          >
+            <FaGamepad className="text-6xl mx-auto mb-4" style={{ color: '#0f52ba' }} />
+            <h3 className="text-xl font-semibold mb-2" style={{ color: '#D6E6F3' }}>No Games Available</h3>
+            <p style={{ color: '#A6c5d7' }}>Leaderboards will appear once games are added.</p>
           </div>
         ) : (
           <>
@@ -89,11 +128,12 @@ export const Leaderboard = () => {
                 <button
                   key={game.id}
                   onClick={() => setSelectedGame(game.id!)}
-                  className={`px-6 py-3 rounded-xl font-semibold transition ${
+                  className="px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
+                  style={
                     selectedGame === game.id
-                      ? "bg-violet-600 text-white"
-                      : "bg-white/10 text-violet-300 hover:bg-white/20"
-                  }`}
+                      ? { backgroundColor: '#0f52ba', color: '#D6E6F3' }
+                      : { backgroundColor: 'rgba(166, 197, 215, 0.1)', color: '#A6c5d7' }
+                  }
                 >
                   {game.name}
                 </button>
@@ -101,29 +141,35 @@ export const Leaderboard = () => {
             </div>
 
             {/* Leaderboard Table */}
-            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+            <div 
+              className="backdrop-blur-xl rounded-2xl p-6"
+              style={{ backgroundColor: 'rgba(0, 9, 38, 0.8)', border: '1px solid rgba(166, 197, 215, 0.2)' }}
+            >
               {leaderboardLoading ? (
-                <div className="text-center text-violet-300 py-12">Loading leaderboard...</div>
+                <div className="flex justify-center py-12">
+                  <div className="animate-spin rounded-full h-8 w-8 border-4 border-t-transparent" style={{ borderColor: '#A6c5d7', borderTopColor: 'transparent' }}></div>
+                </div>
               ) : leaderboard.length === 0 ? (
                 <div className="text-center py-12">
-                  <FaTrophy className="text-4xl text-violet-400 mx-auto mb-4" />
-                  <p className="text-violet-300">No scores yet. Be the first to play!</p>
+                  <FaTrophy className="text-4xl mx-auto mb-4" style={{ color: '#0f52ba' }} />
+                  <p style={{ color: '#A6c5d7' }}>No scores yet. Be the first to play!</p>
                 </div>
               ) : (
                 <div className="space-y-3">
                   {leaderboard.map((score, index) => (
                     <div
                       key={score.id}
-                      className={`flex items-center gap-4 p-4 rounded-xl border ${getRankBg(index)}`}
+                      className="flex items-center gap-4 p-4 rounded-xl transition-all duration-300 hover:scale-[1.02]"
+                      style={getRankBg(index)}
                     >
                       <div className="flex items-center justify-center w-8">
                         {getRankIcon(index)}
                       </div>
                       <div className="flex-1">
-                        <p className="font-semibold text-white">
+                        <p className="font-semibold" style={{ color: '#D6E6F3' }}>
                           {score.displayName || "Anonymous"}
                         </p>
-                        <p className="text-sm text-violet-300">
+                        <p className="text-sm" style={{ color: '#A6c5d7' }}>
                           {score.createdAt
                             ? new Date(
                                 "toDate" in score.createdAt
@@ -134,10 +180,10 @@ export const Leaderboard = () => {
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="text-2xl font-bold text-white">
+                        <p className="text-2xl font-bold" style={{ color: '#D6E6F3' }}>
                           {score.score.toLocaleString()}
                         </p>
-                        <p className="text-xs text-violet-300">points</p>
+                        <p className="text-xs" style={{ color: '#A6c5d7' }}>points</p>
                       </div>
                     </div>
                   ))}

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts";
 import { getUserScores, Score } from "@/firebase";
-import { FaUser, FaGamepad, FaTrophy, FaSignOutAlt, FaEdit } from "react-icons/fa";
+import { FaUser, FaGamepad, FaTrophy, FaSignOutAlt, FaEdit, FaArrowLeft, FaCalendar } from "react-icons/fa";
 
 export const Profile = () => {
   const { user, userProfile, logout } = useAuth();
@@ -29,42 +29,98 @@ export const Profile = () => {
 
   if (!user || !userProfile) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-violet-900 via-purple-900 to-indigo-900">
-        <div className="text-white text-xl">Loading...</div>
+      <div 
+        className="min-h-screen flex items-center justify-center relative overflow-hidden"
+        style={{ background: 'linear-gradient(135deg, #000926 0%, #0f52ba 100%)' }}
+      >
+        {/* Animated Background */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div 
+            className="absolute w-96 h-96 rounded-full blur-3xl animate-pulse"
+            style={{ backgroundColor: 'rgba(15, 82, 186, 0.3)', top: '10%', left: '20%' }}
+          />
+          <div 
+            className="absolute w-80 h-80 rounded-full blur-3xl animate-pulse"
+            style={{ backgroundColor: 'rgba(166, 197, 215, 0.2)', bottom: '20%', right: '15%', animationDelay: '1s' }}
+          />
+        </div>
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-t-transparent" style={{ borderColor: '#A6c5d7', borderTopColor: 'transparent' }}></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-900 via-purple-900 to-indigo-900 py-12 px-4">
-      <div className="max-w-4xl mx-auto">
+    <div 
+      className="min-h-screen py-12 px-4 relative overflow-hidden"
+      style={{ background: 'linear-gradient(135deg, #000926 0%, #0f52ba 100%)' }}
+    >
+      {/* Animated Background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div 
+          className="absolute w-96 h-96 rounded-full blur-3xl animate-pulse"
+          style={{ backgroundColor: 'rgba(15, 82, 186, 0.3)', top: '5%', left: '10%' }}
+        />
+        <div 
+          className="absolute w-80 h-80 rounded-full blur-3xl animate-pulse"
+          style={{ backgroundColor: 'rgba(166, 197, 215, 0.2)', bottom: '10%', right: '5%', animationDelay: '1s' }}
+        />
+        <div 
+          className="absolute w-64 h-64 rounded-full blur-3xl animate-pulse"
+          style={{ backgroundColor: 'rgba(214, 230, 243, 0.1)', top: '50%', left: '50%', animationDelay: '2s' }}
+        />
+      </div>
+
+      <div className="max-w-4xl mx-auto relative z-10">
+        {/* Back Button */}
+        <button
+          onClick={() => navigate("/dashboard")}
+          className="flex items-center gap-2 mb-6 px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105"
+          style={{ backgroundColor: 'rgba(166, 197, 215, 0.2)', color: '#D6E6F3' }}
+        >
+          <FaArrowLeft />
+          Back to Dashboard
+        </button>
+
         {/* Profile Header */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20 mb-8">
+        <div 
+          className="backdrop-blur-xl rounded-2xl p-8 shadow-2xl mb-8"
+          style={{ backgroundColor: 'rgba(0, 9, 38, 0.8)', border: '1px solid rgba(166, 197, 215, 0.2)' }}
+        >
           <div className="flex flex-col md:flex-row items-center gap-6">
             <div className="relative">
               {user.photoURL ? (
                 <img
                   src={user.photoURL}
                   alt="Profile"
-                  className="w-24 h-24 rounded-full border-4 border-violet-500"
+                  className="w-24 h-24 rounded-full"
+                  style={{ border: '4px solid #0f52ba' }}
                 />
               ) : (
-                <div className="w-24 h-24 rounded-full bg-violet-600 flex items-center justify-center border-4 border-violet-500">
-                  <FaUser className="text-4xl text-white" />
+                <div 
+                  className="w-24 h-24 rounded-full flex items-center justify-center"
+                  style={{ backgroundColor: '#0f52ba', border: '4px solid #A6c5d7' }}
+                >
+                  <FaUser className="text-4xl" style={{ color: '#D6E6F3' }} />
                 </div>
               )}
-              <button className="absolute bottom-0 right-0 p-2 bg-violet-600 rounded-full hover:bg-violet-700 transition">
-                <FaEdit className="text-white text-sm" />
+              <button 
+                className="absolute bottom-0 right-0 p-2 rounded-full transition-all duration-300 hover:scale-110"
+                style={{ backgroundColor: '#0f52ba' }}
+              >
+                <FaEdit className="text-sm" style={{ color: '#D6E6F3' }} />
               </button>
             </div>
 
             <div className="text-center md:text-left flex-1">
-              <h1 className="text-3xl font-bold text-white mb-1">
+              <h1 className="text-3xl font-bold mb-1" style={{ color: '#D6E6F3' }}>
                 {userProfile.displayName}
               </h1>
-              <p className="text-violet-300">{user.email}</p>
+              <p style={{ color: '#A6c5d7' }}>{user.email}</p>
               {userProfile.isAdmin && (
-                <span className="inline-block mt-2 px-3 py-1 bg-yellow-500/20 border border-yellow-500/50 rounded-full text-yellow-300 text-sm">
+                <span 
+                  className="inline-block mt-2 px-3 py-1 rounded-full text-sm font-medium"
+                  style={{ backgroundColor: 'rgba(234, 179, 8, 0.2)', border: '1px solid rgba(234, 179, 8, 0.5)', color: '#fbbf24' }}
+                >
                   Admin
                 </span>
               )}
@@ -72,7 +128,8 @@ export const Profile = () => {
 
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/50 rounded-lg text-red-300 transition"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105"
+              style={{ backgroundColor: 'rgba(239, 68, 68, 0.2)', border: '1px solid rgba(239, 68, 68, 0.5)', color: '#f87171' }}
             >
               <FaSignOutAlt />
               Logout
@@ -82,42 +139,51 @@ export const Profile = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+          <div 
+            className="backdrop-blur-xl rounded-xl p-6 transition-all duration-300 hover:scale-105"
+            style={{ backgroundColor: 'rgba(0, 9, 38, 0.6)', border: '1px solid rgba(166, 197, 215, 0.2)' }}
+          >
             <div className="flex items-center gap-4">
-              <div className="p-3 bg-blue-500/20 rounded-lg">
-                <FaGamepad className="text-2xl text-blue-400" />
+              <div className="p-3 rounded-lg" style={{ backgroundColor: 'rgba(15, 82, 186, 0.3)' }}>
+                <FaGamepad className="text-2xl" style={{ color: '#A6c5d7' }} />
               </div>
               <div>
-                <p className="text-violet-300 text-sm">Games Played</p>
-                <p className="text-2xl font-bold text-white">
+                <p className="text-sm" style={{ color: '#A6c5d7' }}>Games Played</p>
+                <p className="text-2xl font-bold" style={{ color: '#D6E6F3' }}>
                   {userProfile.totalGamesPlayed || 0}
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+          <div 
+            className="backdrop-blur-xl rounded-xl p-6 transition-all duration-300 hover:scale-105"
+            style={{ backgroundColor: 'rgba(0, 9, 38, 0.6)', border: '1px solid rgba(166, 197, 215, 0.2)' }}
+          >
             <div className="flex items-center gap-4">
-              <div className="p-3 bg-green-500/20 rounded-lg">
+              <div className="p-3 rounded-lg" style={{ backgroundColor: 'rgba(34, 197, 94, 0.2)' }}>
                 <FaTrophy className="text-2xl text-green-400" />
               </div>
               <div>
-                <p className="text-violet-300 text-sm">Total Score</p>
-                <p className="text-2xl font-bold text-white">
+                <p className="text-sm" style={{ color: '#A6c5d7' }}>Total Score</p>
+                <p className="text-2xl font-bold" style={{ color: '#D6E6F3' }}>
                   {userProfile.totalScore?.toLocaleString() || 0}
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+          <div 
+            className="backdrop-blur-xl rounded-xl p-6 transition-all duration-300 hover:scale-105"
+            style={{ backgroundColor: 'rgba(0, 9, 38, 0.6)', border: '1px solid rgba(166, 197, 215, 0.2)' }}
+          >
             <div className="flex items-center gap-4">
-              <div className="p-3 bg-purple-500/20 rounded-lg">
-                <FaUser className="text-2xl text-purple-400" />
+              <div className="p-3 rounded-lg" style={{ backgroundColor: 'rgba(15, 82, 186, 0.3)' }}>
+                <FaCalendar className="text-2xl" style={{ color: '#0f52ba' }} />
               </div>
               <div>
-                <p className="text-violet-300 text-sm">Member Since</p>
-                <p className="text-lg font-bold text-white">
+                <p className="text-sm" style={{ color: '#A6c5d7' }}>Member Since</p>
+                <p className="text-lg font-bold" style={{ color: '#D6E6F3' }}>
                   {userProfile.createdAt
                     ? new Date(
                         "toDate" in userProfile.createdAt
@@ -132,32 +198,41 @@ export const Profile = () => {
         </div>
 
         {/* Recent Scores */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20">
-          <h2 className="text-2xl font-bold text-white mb-6">Recent Scores</h2>
+        <div 
+          className="backdrop-blur-xl rounded-2xl p-8 shadow-2xl"
+          style={{ backgroundColor: 'rgba(0, 9, 38, 0.8)', border: '1px solid rgba(166, 197, 215, 0.2)' }}
+        >
+          <h2 className="text-2xl font-bold mb-6" style={{ color: '#D6E6F3' }}>Recent Scores</h2>
           {loading ? (
-            <div className="text-center text-violet-300 py-8">Loading scores...</div>
+            <div className="flex justify-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-4 border-t-transparent" style={{ borderColor: '#A6c5d7', borderTopColor: 'transparent' }}></div>
+            </div>
           ) : scores.length === 0 ? (
-            <div className="text-center text-violet-300 py-8">
+            <div className="text-center py-8" style={{ color: '#A6c5d7' }}>
               No scores yet. Start playing to track your progress!
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b border-white/20">
-                    <th className="text-left py-3 px-4 text-violet-300 font-medium">Game</th>
-                    <th className="text-right py-3 px-4 text-violet-300 font-medium">Score</th>
-                    <th className="text-right py-3 px-4 text-violet-300 font-medium">Date</th>
+                  <tr style={{ borderBottom: '1px solid rgba(166, 197, 215, 0.2)' }}>
+                    <th className="text-left py-3 px-4 font-medium" style={{ color: '#A6c5d7' }}>Game</th>
+                    <th className="text-right py-3 px-4 font-medium" style={{ color: '#A6c5d7' }}>Score</th>
+                    <th className="text-right py-3 px-4 font-medium" style={{ color: '#A6c5d7' }}>Date</th>
                   </tr>
                 </thead>
                 <tbody>
                   {scores.map((score) => (
-                    <tr key={score.id} className="border-b border-white/10 hover:bg-white/5">
-                      <td className="py-3 px-4 text-white">{score.gameName}</td>
+                    <tr 
+                      key={score.id} 
+                      className="transition-colors hover:bg-white/5"
+                      style={{ borderBottom: '1px solid rgba(166, 197, 215, 0.1)' }}
+                    >
+                      <td className="py-3 px-4" style={{ color: '#D6E6F3' }}>{score.gameName}</td>
                       <td className="py-3 px-4 text-right text-green-400 font-semibold">
                         {score.score.toLocaleString()}
                       </td>
-                      <td className="py-3 px-4 text-right text-violet-300 text-sm">
+                      <td className="py-3 px-4 text-right text-sm" style={{ color: '#A6c5d7' }}>
                         {score.createdAt
                           ? new Date(
                               "toDate" in score.createdAt
