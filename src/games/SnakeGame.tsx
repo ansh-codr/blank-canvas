@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaArrowLeft, FaPlay, FaPause, FaRedo, FaTrophy } from 'react-icons/fa';
+import { FaArrowLeft, FaPlay, FaPause, FaRedo, FaTrophy, FaArrowUp, FaArrowDown, FaArrowRight } from 'react-icons/fa';
+import { FaArrowLeftLong } from 'react-icons/fa6';
 import { useAuth } from '@/contexts';
 import { addScore } from '@/firebase';
 import { SplineBackground } from '@/components/SplineBackground';
@@ -16,6 +17,7 @@ export const SnakeGame = () => {
   const navigate = useNavigate();
   const { user, userProfile } = useAuth();
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const gameContainerRef = useRef<HTMLDivElement>(null);
   const [snake, setSnake] = useState<Position[]>([{ x: 10, y: 10 }]);
   const [food, setFood] = useState<Position>({ x: 15, y: 15 });
   const [direction, setDirection] = useState<Direction>('RIGHT');
@@ -25,6 +27,7 @@ export const SnakeGame = () => {
   const [highScore, setHighScore] = useState(0);
   const [speed, setSpeed] = useState(INITIAL_SPEED);
   const directionRef = useRef(direction);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
 
   // Generate random food position
   const generateFood = useCallback((snakeBody: Position[]): Position => {
@@ -277,6 +280,66 @@ export const SnakeGame = () => {
     };
   }, [gameRunning]);
 
+  // Touch swipe controls
+  useEffect(() => {
+    const container = gameContainerRef.current;
+    if (!container) return;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartRef.current = {
+        x: e.touches[0].clientX,
+        y: e.touches[0].clientY
+      };
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (!touchStartRef.current) return;
+      
+      const touchEnd = {
+        x: e.changedTouches[0].clientX,
+        y: e.changedTouches[0].clientY
+      };
+
+      const dx = touchEnd.x - touchStartRef.current.x;
+      const dy = touchEnd.y - touchStartRef.current.y;
+      const minSwipe = 30; // Minimum swipe distance
+
+      if (Math.abs(dx) > Math.abs(dy)) {
+        // Horizontal swipe
+        if (Math.abs(dx) > minSwipe) {
+          if (dx > 0 && directionRef.current !== 'LEFT') {
+            setDirection('RIGHT');
+            directionRef.current = 'RIGHT';
+          } else if (dx < 0 && directionRef.current !== 'RIGHT') {
+            setDirection('LEFT');
+            directionRef.current = 'LEFT';
+          }
+        }
+      } else {
+        // Vertical swipe
+        if (Math.abs(dy) > minSwipe) {
+          if (dy > 0 && directionRef.current !== 'UP') {
+            setDirection('DOWN');
+            directionRef.current = 'DOWN';
+          } else if (dy < 0 && directionRef.current !== 'DOWN') {
+            setDirection('UP');
+            directionRef.current = 'UP';
+          }
+        }
+      }
+
+      touchStartRef.current = null;
+    };
+
+    container.addEventListener('touchstart', handleTouchStart, { passive: true });
+    container.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    return () => {
+      container.removeEventListener('touchstart', handleTouchStart);
+      container.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, []);
+
   // Save score when game ends
   useEffect(() => {
     if (gameOver && score > 0 && user) {
@@ -291,7 +354,7 @@ export const SnakeGame = () => {
   }, [gameOver, score, user, userProfile]);
 
   return (
-    <div className="min-h-screen py-8 px-4 relative overflow-hidden bg-transparent">
+    <div ref={gameContainerRef} className="min-h-screen py-8 px-4 relative overflow-hidden bg-transparent">
       {/* Spline 3D Background */}
       <SplineBackground />
 
@@ -414,39 +477,39 @@ export const SnakeGame = () => {
             <div />
             <button
               onTouchStart={() => { if (directionRef.current !== 'DOWN') { setDirection('UP'); directionRef.current = 'UP'; }}}
-              className="p-4 rounded-xl text-2xl"
-              style={{ backgroundColor: 'rgba(15, 82, 186, 0.3)', color: '#D6E6F3' }}
+              className="p-4 rounded-xl flex items-center justify-center transition-all active:scale-95"
+              style={{ backgroundColor: 'rgba(15, 82, 186, 0.4)', color: '#D6E6F3' }}
             >
-              ↑
+              <FaArrowUp size={24} />
             </button>
             <div />
             <button
               onTouchStart={() => { if (directionRef.current !== 'RIGHT') { setDirection('LEFT'); directionRef.current = 'LEFT'; }}}
-              className="p-4 rounded-xl text-2xl"
-              style={{ backgroundColor: 'rgba(15, 82, 186, 0.3)', color: '#D6E6F3' }}
+              className="p-4 rounded-xl flex items-center justify-center transition-all active:scale-95"
+              style={{ backgroundColor: 'rgba(15, 82, 186, 0.4)', color: '#D6E6F3' }}
             >
-              ←
+              <FaArrowLeftLong size={24} />
             </button>
             <button
               onTouchStart={() => { if (directionRef.current !== 'UP') { setDirection('DOWN'); directionRef.current = 'DOWN'; }}}
-              className="p-4 rounded-xl text-2xl"
-              style={{ backgroundColor: 'rgba(15, 82, 186, 0.3)', color: '#D6E6F3' }}
+              className="p-4 rounded-xl flex items-center justify-center transition-all active:scale-95"
+              style={{ backgroundColor: 'rgba(15, 82, 186, 0.4)', color: '#D6E6F3' }}
             >
-              ↓
+              <FaArrowDown size={24} />
             </button>
             <button
               onTouchStart={() => { if (directionRef.current !== 'LEFT') { setDirection('RIGHT'); directionRef.current = 'RIGHT'; }}}
-              className="p-4 rounded-xl text-2xl"
-              style={{ backgroundColor: 'rgba(15, 82, 186, 0.3)', color: '#D6E6F3' }}
+              className="p-4 rounded-xl flex items-center justify-center transition-all active:scale-95"
+              style={{ backgroundColor: 'rgba(15, 82, 186, 0.4)', color: '#D6E6F3' }}
             >
-              →
+              <FaArrowRight size={24} />
             </button>
           </div>
         </div>
 
         {/* Instructions */}
         <div className="mt-6 text-center text-sm" style={{ color: '#A6c5d7' }}>
-          <p>🎮 Desktop: Arrow Keys or WASD | 📱 Mobile: Touch Controls</p>
+          <p>🎮 Desktop: Arrow Keys or WASD | 📱 Mobile: Swipe or Touch Controls</p>
         </div>
       </div>
     </div>
