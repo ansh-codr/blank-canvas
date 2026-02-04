@@ -68,16 +68,24 @@ export function AuthPage({ mode = 'login' }: AuthPageProps) {
 
   return (
     <main className="relative md:h-screen md:overflow-hidden lg:grid lg:grid-cols-2 bg-[#000926]">
-      {/* Left Side - Spline 3D Scene */}
+      {/* Left Side - Visual */}
       <div className="relative hidden h-full flex-col border-r border-[#0f52ba]/30 lg:flex overflow-hidden" style={{ background: '#000926' }}>
-        {/* Spline 3D Background */}
+        {/* Background */}
         <div className="absolute inset-0 z-0">
-          <Suspense fallback={<SplineLoader />}>
-            <Spline 
-              scene="https://prod.spline.design/lbopITbg7UAV8ESd/scene.splinecode"
-              className="w-full h-full"
+          {isRegister ? (
+            <img
+              src="/img/swordman.webp"
+              alt="Katana warrior"
+              className="h-full w-full object-cover"
             />
-          </Suspense>
+          ) : (
+            <Suspense fallback={<SplineLoader />}>
+              <Spline 
+                scene="https://prod.spline.design/lbopITbg7UAV8ESd/scene.splinecode"
+                className="w-full h-full"
+              />
+            </Suspense>
+          )}
         </div>
         
         {/* Overlay gradient for text readability */}
@@ -94,10 +102,12 @@ export function AuthPage({ mode = 'login' }: AuthPageProps) {
         <div className="z-20 mt-auto p-10">
           <blockquote className="space-y-2">
             <p className="text-xl text-[#D6E6F3]">
-              &ldquo;Join thousands of gamers competing for glory on the ultimate gaming platform.&rdquo;
+              {isRegister
+                ? '"Sharpen your skills and enter the arena."'
+                : '"Join thousands of gamers competing for glory on the ultimate gaming platform."'}
             </p>
             <footer className="font-mono text-sm font-semibold text-[#A6c5d7]">
-              ~ The Gaming Community
+              {isRegister ? '~ The Katana League' : '~ The Gaming Community'}
             </footer>
           </blockquote>
         </div>
