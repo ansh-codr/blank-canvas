@@ -17,10 +17,19 @@ import {
 interface AuthPageProps {
   mode?: 'login' | 'register';
 }
+
+export default function AuthPage({ mode = 'login' }: AuthPageProps) {
+  const navigate = useNavigate();
+  const isRegister = mode === 'register';
   const { login, register, loginWithGoogle } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    displayName: '',
+  });
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -255,20 +264,6 @@ interface AuthPageProps {
   );
 }
 
-function SplineLoader() {
-  return (
-    <div className="w-full h-full flex items-center justify-center bg-[#000926]">
-      <div className="flex flex-col items-center gap-4">
-        <div className="relative">
-          <div className="w-16 h-16 rounded-full border-4 border-[#0f52ba]/20 border-t-[#0f52ba] animate-spin" />
-          <div className="absolute inset-0 w-16 h-16 rounded-full border-4 border-transparent border-b-[#A6c5d7]/30 animate-spin" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }} />
-        </div>
-        <p className="text-[#A6c5d7] text-sm animate-pulse">Loading 3D Scene...</p>
-      </div>
-    </div>
-  );
-}
-
 const GoogleIcon = (props: React.ComponentProps<'svg'>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -291,5 +286,3 @@ const AuthSeparator = () => {
     </div>
   );
 };
-
-export default AuthPage;
