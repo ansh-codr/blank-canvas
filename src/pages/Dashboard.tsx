@@ -31,6 +31,66 @@ const GAME_STYLES: Record<string, { icon: string; gradient: string; badge: { tex
     badge: { text: "BATTLE", color: "red" },
     buttonColor: "#ef4444"
   },
+  "Coin Flip": {
+    icon: "🪙",
+    gradient: "linear-gradient(135deg, rgba(234, 179, 8, 0.4) 0%, rgba(0, 9, 38, 0.8) 100%)",
+    badge: { text: "LUCK", color: "yellow" },
+    buttonColor: "#eab308"
+  },
+  "Dice Roll": {
+    icon: "🎲",
+    gradient: "linear-gradient(135deg, rgba(59, 130, 246, 0.4) 0%, rgba(0, 9, 38, 0.8) 100%)",
+    badge: { text: "CHANCE", color: "blue" },
+    buttonColor: "#3b82f6"
+  },
+  "Number Guess": {
+    icon: "🔢",
+    gradient: "linear-gradient(135deg, rgba(16, 185, 129, 0.4) 0%, rgba(0, 9, 38, 0.8) 100%)",
+    badge: { text: "LOGIC", color: "green" },
+    buttonColor: "#10b981"
+  },
+  "Color Match": {
+    icon: "🎨",
+    gradient: "linear-gradient(135deg, rgba(168, 85, 247, 0.4) 0%, rgba(0, 9, 38, 0.8) 100%)",
+    badge: { text: "SPEED", color: "purple" },
+    buttonColor: "#a855f7"
+  },
+  "Quick Tap": {
+    icon: "⚡",
+    gradient: "linear-gradient(135deg, rgba(59, 130, 246, 0.4) 0%, rgba(0, 9, 38, 0.8) 100%)",
+    badge: { text: "REFLEX", color: "blue" },
+    buttonColor: "#3b82f6"
+  },
+  "Reaction Time": {
+    icon: "⏱️",
+    gradient: "linear-gradient(135deg, rgba(34, 197, 94, 0.4) 0%, rgba(0, 9, 38, 0.8) 100%)",
+    badge: { text: "FOCUS", color: "green" },
+    buttonColor: "#22c55e"
+  },
+  "Word Scramble": {
+    icon: "🔤",
+    gradient: "linear-gradient(135deg, rgba(244, 114, 182, 0.4) 0%, rgba(0, 9, 38, 0.8) 100%)",
+    badge: { text: "WORD", color: "pink" },
+    buttonColor: "#f472b6"
+  },
+  "Pattern Memory": {
+    icon: "🧩",
+    gradient: "linear-gradient(135deg, rgba(99, 102, 241, 0.4) 0%, rgba(0, 9, 38, 0.8) 100%)",
+    badge: { text: "SEQUENCE", color: "purple" },
+    buttonColor: "#6366f1"
+  },
+  "Lights Out": {
+    icon: "💡",
+    gradient: "linear-gradient(135deg, rgba(148, 163, 184, 0.4) 0%, rgba(0, 9, 38, 0.8) 100%)",
+    badge: { text: "PUZZLE", color: "blue" },
+    buttonColor: "#94a3b8"
+  },
+  "Emoji Hunt": {
+    icon: "🕵️",
+    gradient: "linear-gradient(135deg, rgba(251, 146, 60, 0.4) 0%, rgba(0, 9, 38, 0.8) 100%)",
+    badge: { text: "OBSERVE", color: "yellow" },
+    buttonColor: "#fb923c"
+  },
 };
 
 const getGameStyle = (gameName: string) => {

@@ -2,8 +2,10 @@ export const NAV_ITEMS = [
   { label: "TRAILER", href: "#hero" },
   { label: "About", href: "#about" },
   { label: "Nexus", href: "#nexus" },
+  { label: "Games", href: "#games" },
   { label: "Story", href: "#story" },
   { label: "Contact", href: "#contact" },
+  { label: "Experience", href: "#experience" },
 ] as const;
 
 // Admin emails - these users will automatically be set as admins

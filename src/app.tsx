@@ -1,10 +1,11 @@
 import { About } from "@/components/about";
 import { Contact } from "@/components/contact";
 import { Features } from "@/components/features";
-import { Footer } from "@/components/footer";
+import { GamesShowcase } from "@/components/games-showcase";
 import { Hero } from "@/components/hero";
 import { Navbar } from "@/components/navbar";
 import { Story } from "@/components/story";
+import { ExperienceScene } from "@/components/experience-scene";
 
 const App = () => {
   return (
@@ -15,11 +16,11 @@ const App = () => {
         <Hero />
         <About />
         <Features />
+        <GamesShowcase />
         <Story />
         <Contact />
+        <ExperienceScene />
       </main>
-
-      <Footer />
     </div>
   );
 };

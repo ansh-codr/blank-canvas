@@ -1,19 +1,62 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { FaVolumeUp, FaVolumeMute } from 'react-icons/fa';
+import { useLocation } from 'react-router-dom';
+import { VIDEO_LINKS } from '@/constants';
 
-const VIDEO_SOURCES = [
-  '/videos/feature-1.mp4',
-  '/videos/feature-2.mp4',
-  '/videos/feature-3.mp4',
+const DEFAULT_VIDEOS = [
+  VIDEO_LINKS.feature1,
+  VIDEO_LINKS.feature2,
+  VIDEO_LINKS.feature3,
 ];
+
+const ROUTE_VIDEOS: Record<string, string[]> = {
+  '/dashboard': [VIDEO_LINKS.hero1],
+  '/leaderboard': [VIDEO_LINKS.hero2],
+  '/profile': [VIDEO_LINKS.feature2],
+  '/admin': [VIDEO_LINKS.feature4],
+};
+
+const GAME_VIDEOS: Record<string, string> = {
+  'snake': VIDEO_LINKS.feature5,
+  'tictactoe': VIDEO_LINKS.hero3,
+  'memory': VIDEO_LINKS.feature1,
+  'rps': VIDEO_LINKS.hero4,
+  'coin-flip': VIDEO_LINKS.feature2,
+  'dice-roll': VIDEO_LINKS.feature3,
+  'number-guess': VIDEO_LINKS.hero2,
+  'color-match': VIDEO_LINKS.hero1,
+  'quick-tap': VIDEO_LINKS.feature4,
+  'reaction-time': VIDEO_LINKS.hero3,
+  'word-scramble': VIDEO_LINKS.feature5,
+  'pattern-memory': VIDEO_LINKS.hero4,
+  'lights-out': VIDEO_LINKS.feature1,
+  'emoji-hunt': VIDEO_LINKS.feature2,
+};
 
 const AUDIO_SOURCE = '/audio/loop.mp3';
 
 export const VideoBackground = () => {
+  const location = useLocation();
   const videoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [currentVideo, setCurrentVideo] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
+  const videoSources = useMemo(() => {
+    const routeMatch = ROUTE_VIDEOS[location.pathname];
+    if (routeMatch?.length) return routeMatch;
+
+    if (location.pathname.startsWith('/games/')) {
+      const slug = location.pathname.replace('/games/', '');
+      const video = GAME_VIDEOS[slug];
+      return video ? [video] : DEFAULT_VIDEOS;
+    }
+
+    return DEFAULT_VIDEOS;
+  }, [location.pathname]);
+
+  useEffect(() => {
+    setCurrentVideo(0);
+  }, [videoSources]);
 
   // Video cycling
   useEffect(() => {
@@ -21,7 +64,7 @@ export const VideoBackground = () => {
     if (!video) return;
 
     const handleEnded = () => {
-      setCurrentVideo((prev) => (prev + 1) % VIDEO_SOURCES.length);
+      setCurrentVideo((prev) => (prev + 1) % videoSources.length);
     };
 
     video.addEventListener('ended', handleEnded);
@@ -59,7 +102,7 @@ export const VideoBackground = () => {
         {/* Video */}
         <video
           ref={videoRef}
-          src={VIDEO_SOURCES[currentVideo]}
+          src={videoSources[currentVideo]}
           autoPlay
           muted
           playsInline
@@ -67,10 +110,10 @@ export const VideoBackground = () => {
         />
         
         {/* Overlay for readability */}
-        <div className="absolute inset-0 bg-[#000926]/80" />
+        <div className="absolute inset-0 bg-[#000926]/60" />
         
         {/* Subtle gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#000926]/50 to-[#000926]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#000926]/40 to-[#000926]" />
       </div>
 
       {/* Background Audio */}
