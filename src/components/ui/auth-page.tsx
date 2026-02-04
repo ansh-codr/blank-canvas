@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useState, Suspense } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import Spline from '@splinetool/react-spline';
 import { Button } from './button';
 import { Input } from './input';
 import { useAuth } from '@/contexts';
@@ -18,20 +17,10 @@ import {
 interface AuthPageProps {
   mode?: 'login' | 'register';
 }
-
-export function AuthPage({ mode = 'login' }: AuthPageProps) {
-  const navigate = useNavigate();
   const { login, register, loginWithGoogle } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    displayName: '',
-  });
-
-  const isRegister = mode === 'register';
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
