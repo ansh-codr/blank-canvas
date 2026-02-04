@@ -112,10 +112,10 @@ export const Features = () => {
               src={VIDEO_LINKS.feature2}
               title={
                 <>
-                  zig<b>m</b>a
+                  memory m<b>a</b>tch
                 </>
               }
-              description="An anime and gaming-inspired NFT collection - the IP primed for expansion."
+              description="Flip, match, and level up your focus with quick rounds built for everyone."
             />
           </BentoTilt>
 
@@ -124,10 +124,10 @@ export const Features = () => {
               src={VIDEO_LINKS.feature3}
               title={
                 <>
-                  n<b>e</b>xus
+                  quick t<b>a</b>p
                 </>
               }
-              description="A gamified social hub, adding a new dimension of play to social interaction for Web3 communities."
+              description="Five seconds. Unlimited taps. Challenge friends and chase the top streak."
             />
           </BentoTilt>
 
@@ -136,10 +136,10 @@ export const Features = () => {
               src={VIDEO_LINKS.feature4}
               title={
                 <>
-                  az<b>u</b>l
+                  reaction t<b>i</b>me
                 </>
               }
-              description="A cross-world AI Agent - elevating your gameplay to be more fun and productive."
+              description="Wait for the signal, then click fast to prove your reflexes."
             />
           </BentoTilt>
 

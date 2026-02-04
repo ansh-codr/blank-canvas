@@ -45,13 +45,36 @@ export const About = () => {
         </div>
       </div>
 
-      <div className="h-dvh w-screen" id="clip">
-        <div className="mask-clip-path about-image">
-          <img
-            src="/img/about.webp"
-            alt="Background"
-            className="absolute left-0 top-0 size-full object-cover"
-          />
+      <div className="mx-auto mt-16 max-w-5xl px-6 pb-20">
+        <div className="grid gap-6 md:grid-cols-3">
+          {[
+            {
+              label: "Games live",
+              value: "14",
+              description: "Fast, easy mini games",
+            },
+            {
+              label: "Daily players",
+              value: "24K+",
+              description: "Compete with friends",
+            },
+            {
+              label: "New drops",
+              value: "Weekly",
+              description: "Fresh challenges",
+            },
+          ].map((item) => (
+            <div
+              key={item.label}
+              className="rounded-2xl border border-blue-200/10 bg-black/80 p-6 text-center text-blue-50"
+            >
+              <p className="text-xs uppercase tracking-widest text-blue-200/60">
+                {item.label}
+              </p>
+              <p className="mt-3 text-3xl font-semibold">{item.value}</p>
+              <p className="mt-2 text-sm text-blue-200/70">{item.description}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
