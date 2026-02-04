@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { FaVolumeUp, FaVolumeMute } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 import { VIDEO_LINKS } from '@/constants';
+import { audioManager } from '@/lib/audioManager';
 
 const DEFAULT_VIDEOS = [
   VIDEO_LINKS.feature1,
@@ -38,9 +39,8 @@ const AUDIO_SOURCE = '/audio/loop.mp3';
 export const VideoBackground = () => {
   const location = useLocation();
   const videoRef = useRef<HTMLVideoElement>(null);
-  const audioRef = useRef<HTMLAudioElement>(null);
   const [currentVideo, setCurrentVideo] = useState(0);
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(audioManager.getMutedState());
   const videoSources = useMemo(() => {
     const routeMatch = ROUTE_VIDEOS[location.pathname];
     if (routeMatch?.length) return routeMatch;
@@ -53,6 +53,18 @@ export const VideoBackground = () => {
 
     return DEFAULT_VIDEOS;
   }, [location.pathname]);
+
+  // Initialize audio manager once
+  useEffect(() => {
+    audioManager.initialize(AUDIO_SOURCE);
+    
+    // Subscribe to audio state changes
+    const unsubscribe = audioManager.subscribe((muted) => {
+      setIsMuted(muted);
+    });
+    
+    return unsubscribe;
+  }, []);
 
   useEffect(() => {
     setCurrentVideo(0);
@@ -79,21 +91,8 @@ export const VideoBackground = () => {
     }
   }, [currentVideo]);
 
-  // Audio control
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (audio) {
-      audio.volume = 0.3; // 30% volume
-      if (!isMuted) {
-        audio.play().catch(() => {});
-      } else {
-        audio.pause();
-      }
-    }
-  }, [isMuted]);
-
   const toggleAudio = () => {
-    setIsMuted((prev) => !prev);
+    audioManager.toggleMute();
   };
 
   return (
@@ -115,9 +114,6 @@ export const VideoBackground = () => {
         {/* Subtle gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#000926]/40 to-[#000926]" />
       </div>
-
-      {/* Background Audio */}
-      <audio ref={audioRef} src={AUDIO_SOURCE} loop preload="auto" />
 
       {/* Audio Toggle Button */}
       <button
