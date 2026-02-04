@@ -46,7 +46,7 @@ export const About = () => {
       </div>
 
       <div className="mx-auto mt-16 max-w-5xl px-6 pb-20">
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-3 md:justify-items-center">
           {[
             {
               label: "Games live",
@@ -66,7 +66,7 @@ export const About = () => {
           ].map((item) => (
             <div
               key={item.label}
-              className="rounded-2xl border border-blue-200/10 bg-black/80 p-6 text-center text-blue-50"
+              className="w-full max-w-xs rounded-2xl border border-blue-200/10 bg-black/80 p-6 text-center text-blue-50"
             >
               <p className="text-xs uppercase tracking-widest text-blue-200/60">
                 {item.label}

@@ -72,41 +72,32 @@ export function AuthPage({ mode = 'login' }: AuthPageProps) {
       <div className="relative hidden h-full flex-col border-r border-[#0f52ba]/30 lg:flex overflow-hidden" style={{ background: '#000926' }}>
         {/* Background */}
         <div className="absolute inset-0 z-0">
-          {isRegister ? (
-            <img
-              src="/img/swordman.webp"
-              alt="Katana warrior"
-              className="h-full w-full object-cover"
-            />
-          ) : (
-            <Suspense fallback={<SplineLoader />}>
-              <Spline 
-                scene="https://prod.spline.design/lbopITbg7UAV8ESd/scene.splinecode"
-                className="w-full h-full"
-              />
-            </Suspense>
-          )}
+          <img
+            src="/img/swordman.webp"
+            alt="Katana warrior"
+            className="h-full w-full object-cover object-center"
+          />
         </div>
         
         {/* Overlay gradient for text readability */}
-        <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#000926] via-transparent to-transparent pointer-events-none" />
-        <div className="absolute inset-0 z-10 bg-gradient-to-r from-transparent to-[#000926]/50 pointer-events-none" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#000926] via-[#000926]/40 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-transparent to-[#000926]/60 pointer-events-none" />
         
         {/* Logo */}
         <div className="z-20 flex items-center gap-2 p-10">
-          <GamepadIcon className="size-8 text-[#D6E6F3]" />
-          <p className="text-2xl font-bold text-[#D6E6F3]">GameHub</p>
+          <GamepadIcon className="size-8 text-[#F1F5FF]" />
+          <p className="text-2xl font-bold text-[#F1F5FF]">GameHub</p>
         </div>
         
         {/* Quote at bottom */}
         <div className="z-20 mt-auto p-10">
           <blockquote className="space-y-2">
-            <p className="text-xl text-[#D6E6F3]">
+            <p className="text-xl text-[#F1F5FF]">
               {isRegister
                 ? '"Sharpen your skills and enter the arena."'
                 : '"Join thousands of gamers competing for glory on the ultimate gaming platform."'}
             </p>
-            <footer className="font-mono text-sm font-semibold text-[#A6c5d7]">
+            <footer className="font-mono text-sm font-semibold text-[#C4D4EA]">
               {isRegister ? '~ The Katana League' : '~ The Gaming Community'}
             </footer>
           </blockquote>
@@ -141,15 +132,15 @@ export function AuthPage({ mode = 'login' }: AuthPageProps) {
         <div className="mx-auto space-y-6 w-full max-w-sm relative z-10">
           {/* Mobile Logo */}
           <div className="flex items-center gap-2 lg:hidden">
-            <GamepadIcon className="size-8 text-[#D6E6F3]" />
-            <p className="text-2xl font-bold text-[#D6E6F3]">GameHub</p>
+            <GamepadIcon className="size-8 text-[#F1F5FF]" />
+            <p className="text-2xl font-bold text-[#F1F5FF]">GameHub</p>
           </div>
 
           <div className="flex flex-col space-y-1">
-            <h1 className="text-2xl font-bold tracking-wide text-[#D6E6F3]">
+            <h1 className="text-2xl font-bold tracking-wide text-[#F1F5FF]">
               {isRegister ? 'Create Account' : 'Welcome Back!'}
             </h1>
-            <p className="text-base text-[#A6c5d7]">
+            <p className="text-base text-[#B9C7D6]">
               {isRegister 
                 ? 'Join the gaming community today.' 
                 : 'Sign in to continue your gaming journey.'}
@@ -240,7 +231,7 @@ export function AuthPage({ mode = 'login' }: AuthPageProps) {
             </Button>
           </form>
 
-          <p className="text-[#A6c5d7] text-sm text-center">
+          <p className="text-[#B9C7D6] text-sm text-center">
             {isRegister ? (
               <>
                 Already have an account?{' '}
@@ -258,7 +249,7 @@ export function AuthPage({ mode = 'login' }: AuthPageProps) {
             )}
           </p>
 
-          <p className="text-[#A6c5d7]/60 text-xs text-center">
+          <p className="text-[#B9C7D6]/70 text-xs text-center">
             By continuing, you agree to our{' '}
             <a href="#" className="hover:text-[#0f52ba] underline underline-offset-4">
               Terms of Service
